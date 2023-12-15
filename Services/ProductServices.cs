@@ -46,11 +46,42 @@ namespace Web_API.Services
             return product;
         }
 
+        public async Task<List<Product>> GetProductsByNameAndPriceAsync(string productName, decimal price)
+        {
+            var products = await context.Products
+            .Where(p => p.ProductName.Contains(productName) && p.Price == price)
+            .ToListAsync();
+
+            return products;
+        }
+
+        public async Task<List<Product>> GetProductsByNameAsync(string productName)
+        {
+            var products = await context.Products
+              .Where(p => p.ProductName.Contains(productName))
+              .ToListAsync();
+
+            return products;
+        }
+
+        //public async Task<List<Order>> GetUserOrdersAsync(int userId)
+        //{
+        //    var userOrders = await context.Orders
+        //    .Where(o => o.Id == userId)
+        //    .Include(o => o.Products)
+        //        .ThenInclude(op => op.Orders)
+        //    .ToListAsync();
+
+        //    return userOrders;
+        //}
+
         public async Task<string> UpdateProductAsync()
         {
             await context.SaveChangesAsync();
             return "Product Saved Successfully";
 
         }
+       
+
     }
 }
